@@ -1,0 +1,487 @@
+// EbsCom.idl : IDL source for EbsCom.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (EbsCom.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	
+
+	[
+		uuid(FBEB4A21-D1C5-11d3-B4D6-005004D39EC7),
+		helpstring("EbsSection Types"),
+	]
+	typedef enum {EbsSectionTypeBasic, EbsSectionTypeAlt, EbsSectionTypeOpt}	EbsSectionType;
+
+	[
+		uuid(CC3CE441-782C-4f54-B22F-9B1471F76ACE),
+		helpstring("Error Types while Reading/Writing an Ebs File"),
+	] 
+	
+	typedef INT EbsIOError;
+
+	[
+		object,
+		uuid(942E2BF6-D003-11D3-B4D5-005004D39EC7),
+		dual,
+		helpstring("IEbsSections Interface"),
+		pointer_default(unique)
+	]
+	interface IEbsSections : IDispatch
+	{
+		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+		[id(2), helpstring("method Item")] HRESULT Item([in] long Index, [out, retval] VARIANT* retval);
+		[propget, restricted, id(DISPID_NEWENUM), helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] IUnknown* *pVal);
+	};
+	
+	[
+		object,
+		uuid(942E2BF9-D003-11D3-B4D5-005004D39EC7),
+		dual,
+		helpstring("IEbsSection Interface"),
+		pointer_default(unique)
+	]
+	interface IEbsSection : IDispatch
+	{
+		[propget, id(1), helpstring("property Number")] HRESULT Number([out, retval] BSTR *pVal);
+		[propget, id(2), helpstring("property AltCode")] HRESULT AltCode([out, retval] BSTR *pVal);
+		[propget, id(3), helpstring("property Description")] HRESULT Description([out, retval] BSTR *pVal);
+		[propget, id(4), helpstring("property Total")] HRESULT Total([out, retval] double *pVal);
+		[propget, id(5), helpstring("property Items")] HRESULT Items([out, retval] LPDISPATCH *pVal);
+		[propget, id(6), helpstring("property IsAlternate")] HRESULT IsAlternate([out, retval] VARIANT_BOOL *pVal);
+		[propget, id(7), helpstring("property IsOption")] HRESULT IsOption([out, retval] VARIANT_BOOL *pVal);
+	};
+	
+	[
+		object,
+		uuid(942E2BFC-D003-11D3-B4D5-005004D39EC7),
+		dual,
+		helpstring("IEbsSectionsEnum Interface"),
+		pointer_default(unique)
+	]
+	interface IEbsSectionsEnum : IDispatch
+	{
+	};
+	
+	[
+		object,
+		uuid(1E6F1C86-D19B-11D3-B4D6-005004D39EC7),
+		dual,
+		helpstring("IEbsItems Interface"),
+		pointer_default(unique)
+	]
+	interface IEbsItems : IDispatch
+	{
+		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+		[id(2), helpstring("method Item")] HRESULT Item([in] long Index, [out, retval] VARIANT* retval);
+		[propget, restricted, id(DISPID_NEWENUM), helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] IUnknown* *pVal);
+	};
+	
+	[
+		object,
+		uuid(1E6F1C89-D19B-11D3-B4D6-005004D39EC7),
+		dual,
+		helpstring("IEbsItemsEnum Interface"),
+		pointer_default(unique)
+	]
+	interface IEbsItemsEnum : IDispatch
+	{
+	};
+	
+	[
+		object,
+		uuid(1E6F1C8C-D19B-11D3-B4D6-005004D39EC7),
+		dual,
+		helpstring("IEbsItem Interface"),
+		pointer_default(unique)
+	]
+	interface IEbsItem : IDispatch 
+	{
+		[propget, id(1), helpstring("property Extension")] HRESULT Extension([out, retval] double *pVal);
+		[propget, id(2), helpstring("property LineNumber")] HRESULT LineNumber([out, retval] BSTR *pVal);
+		[propget, id(3), helpstring("property LongDescription")] HRESULT LongDescription([out, retval] BSTR *pVal);
+		[propget, id(4), helpstring("property Quantity")] HRESULT Quantity([out, retval] double *pVal);
+		[propget, id(5), helpstring("property ShortDescription")] HRESULT ShortDescription([out, retval] BSTR *pVal);
+		[propget, id(6), helpstring("property Unit")] HRESULT Unit([out, retval] BSTR *pVal);
+		[propget, id(7), helpstring("property UnitPrice")] HRESULT UnitPrice([out, retval] double *pVal);
+        [propput, id(7), helpstring("property UnitPrice")] HRESULT UnitPrice([in] double newVal);
+		[id(8), helpstring("method IsBid")] HRESULT IsBid([out, retval] VARIANT_BOOL* pRes);
+		[propget, id(9), helpstring("property ItemNumber")] HRESULT ItemNumber([out, retval] BSTR *pVal);
+		[propget, id(10), helpstring("property AltCode")] HRESULT AltCode([out, retval] BSTR *pVal);
+		[propget, id(11), helpstring("property IsFixedPrice")] HRESULT IsFixedPrice([out, retval] VARIANT_BOOL *pVal);
+		[propget, id(12), helpstring("property IsLumpSum")] HRESULT IsLumpSum([out, retval] VARIANT_BOOL *pVal);
+		[propget, id(13), helpstring("property IsUsed")] HRESULT IsUsed([out, retval] VARIANT_BOOL *pVal);
+		[propget, id(14), helpstring("property IsAlternate")] HRESULT IsAlternate([out, retval] VARIANT_BOOL *pVal);
+		[propget, id(15), helpstring("property IsOption")] HRESULT IsOption([out, retval] VARIANT_BOOL *pVal);
+		[id(16), helpstring("method InvalidateItem")] HRESULT InvalidateItem();
+		[propget, id(17), helpstring("property IsFixedPriceChangeable")] HRESULT IsFixedPriceChangeable([out, retval] VARIANT_BOOL *pVal);
+		[id(18), helpstring("method EnableFixedPriceItem")] HRESULT EnableFixedPriceItem([in] VARIANT_BOOL Enable);
+//TODO upgrade <GL>: remove comment		[propput, id(13), helpstring("property IsUsed")] HRESULT IsUsed([in] VARIANT_BOOL newVal);
+	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		object,
+//TODO upgrade <GL>: remove comment		uuid(0111E796-D32B-11D3-B4D8-005004D39EC7),
+//TODO upgrade <GL>: remove comment		dual,
+//TODO upgrade <GL>: remove comment		helpstring("IEbsDBEs Interface"),
+//TODO upgrade <GL>: remove comment		pointer_default(unique)
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	interface IEbsDBEs : IDispatch
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+//TODO upgrade <GL>: remove comment		[id(2), helpstring("method Item")] HRESULT Item([in] long Index, [out, retval] VARIANT* retval);
+//TODO upgrade <GL>: remove comment		[propget, restricted, id(DISPID_NEWENUM), helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] IUnknown* *pVal);
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		object,
+//TODO upgrade <GL>: remove comment		uuid(0111E799-D32B-11D3-B4D8-005004D39EC7),
+//TODO upgrade <GL>: remove comment		dual,
+//TODO upgrade <GL>: remove comment		helpstring("IEbsDBEsEnum Interface"),
+//TODO upgrade <GL>: remove comment		pointer_default(unique)
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	interface IEbsDBEsEnum : IDispatch
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		object,
+//TODO upgrade <GL>: remove comment		uuid(0111E79C-D32B-11D3-B4D8-005004D39EC7),
+//TODO upgrade <GL>: remove comment		dual,
+//TODO upgrade <GL>: remove comment		helpstring("IEbsDBE Interface"),
+//TODO upgrade <GL>: remove comment		pointer_default(unique)
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	interface IEbsDBE : IDispatch
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[propget, id(1), helpstring("property DBEItems")] HRESULT DBEItems([out, retval] LPDISPATCH *pVal);
+//TODO upgrade <GL>: remove comment		[propget, id(2), helpstring("property Name")] HRESULT Name([out, retval] BSTR *pVal);
+//TODO upgrade <GL>: remove comment		[propput, id(2), helpstring("property Name")] HRESULT Name([in] BSTR newVal);
+//TODO upgrade <GL>: remove comment		[propget, id(3), helpstring("property UsedAs")] HRESULT UsedAs([out, retval] long *pVal);
+//TODO upgrade <GL>: remove comment		[propput, id(3), helpstring("property UsedAs")] HRESULT UsedAs([in] long newVal);
+//TODO upgrade <GL>: remove comment		[propget, id(4), helpstring("property IsBid")] HRESULT IsBid([out, retval] long *pVal);
+//TODO upgrade <GL>: remove comment		[propput, id(4), helpstring("property IsBid")] HRESULT IsBid([in] long newVal);
+//TODO upgrade <GL>: remove comment		[propget, id(5), helpstring("property ID")] HRESULT ID([out, retval] BSTR *pVal);
+//TODO upgrade <GL>: remove comment		[propput, id(5), helpstring("property ID")] HRESULT ID([in] BSTR newVal);
+//TODO upgrade <GL>: remove comment		[propget, id(6), helpstring("property Amount")] HRESULT Amount([out, retval] double *pVal);
+//TODO upgrade <GL>: remove comment		[propput, id(6), helpstring("property Amount")] HRESULT Amount([in] double newVal);
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		object,
+//TODO upgrade <GL>: remove comment		uuid(0111E79F-D32B-11D3-B4D8-005004D39EC7),
+//TODO upgrade <GL>: remove comment		dual,
+//TODO upgrade <GL>: remove comment		helpstring("IEbsDBEItems Interface"),
+//TODO upgrade <GL>: remove comment		pointer_default(unique)
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	interface IEbsDBEItems : IDispatch
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+//TODO upgrade <GL>: remove comment		[id(2), helpstring("method Item")] HRESULT Item([in] long Index, [out, retval] VARIANT* retval);
+//TODO upgrade <GL>: remove comment		[propget, restricted, id(DISPID_NEWENUM), helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] IUnknown* *pVal);
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		object,
+//TODO upgrade <GL>: remove comment		uuid(0111E7A2-D32B-11D3-B4D8-005004D39EC7),
+//TODO upgrade <GL>: remove comment		dual,
+//TODO upgrade <GL>: remove comment		helpstring("IEbsDBEItemsEnum Interface"),
+//TODO upgrade <GL>: remove comment		pointer_default(unique)
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	interface IEbsDBEItemsEnum : IDispatch
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		object,
+//TODO upgrade <GL>: remove comment		uuid(0111E7A5-D32B-11D3-B4D8-005004D39EC7),
+//TODO upgrade <GL>: remove comment		dual,
+//TODO upgrade <GL>: remove comment		helpstring("IEbsDBEItem Interface"),
+//TODO upgrade <GL>: remove comment		pointer_default(unique)
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	interface IEbsDBEItem : IDispatch
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[propget, id(1), helpstring("property Index")] HRESULT Index([out, retval] long *pVal);
+//TODO upgrade <GL>: remove comment		[propget, id(2), helpstring("property Quantity")] HRESULT Quantity([out, retval] double *pVal);
+//TODO upgrade <GL>: remove comment		[propput, id(2), helpstring("property Quantity")] HRESULT Quantity([in] double newVal);
+//TODO upgrade <GL>: remove comment		[propget, id(3), helpstring("property UnitPrice")] HRESULT UnitPrice([out, retval] double *pVal);
+//TODO upgrade <GL>: remove comment		[propput, id(3), helpstring("property UnitPrice")] HRESULT UnitPrice([in] double newVal);
+//TODO upgrade <GL>: remove comment		[propget, id(4), helpstring("property Note")] HRESULT Note([out, retval] BSTR *pVal);
+//TODO upgrade <GL>: remove comment		[propputref, id(4), helpstring("property Note")] HRESULT Note([in] BSTR newVal);
+//TODO upgrade <GL>: remove comment		[propget, id(5), helpstring("property Extension")] HRESULT Extension([out, retval] double *pVal);
+//TODO upgrade <GL>: remove comment		[propput, id(5), helpstring("property Extension")] HRESULT Extension([in] double newVal);
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		object,
+//TODO upgrade <GL>: remove comment		uuid(2D386F6F-D3F3-11D3-B4D9-005004D39EC7),
+//TODO upgrade <GL>: remove comment		dual,
+//TODO upgrade <GL>: remove comment		helpstring("IEbsDBEFieldValues Interface"),
+//TODO upgrade <GL>: remove comment		pointer_default(unique)
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	interface IEbsDBEFieldValues : IDispatch
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+//TODO upgrade <GL>: remove comment		[id(2), helpstring("method Item")] HRESULT Item([in] long Index, [out, retval] VARIANT* retval);
+//TODO upgrade <GL>: remove comment		[propget, restricted, id(DISPID_NEWENUM), helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] IUnknown* *pVal);
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		object,
+//TODO upgrade <GL>: remove comment		uuid(2D386F72-D3F3-11D3-B4D9-005004D39EC7),
+//TODO upgrade <GL>: remove comment		dual,
+//TODO upgrade <GL>: remove comment		helpstring("IEbsDBEFieldValuesEnum Interface"),
+//TODO upgrade <GL>: remove comment		pointer_default(unique)
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	interface IEbsDBEFieldValuesEnum : IDispatch
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		object,
+//TODO upgrade <GL>: remove comment		uuid(2D386F75-D3F3-11D3-B4D9-005004D39EC7),
+//TODO upgrade <GL>: remove comment		dual,
+//TODO upgrade <GL>: remove comment		helpstring("IEbsDBEFieldValue Interface"),
+//TODO upgrade <GL>: remove comment		pointer_default(unique)
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	interface IEbsDBEFieldValue : IDispatch
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment	};
+
+	[
+		object,
+		uuid(C7DA8A0C-524B-11D4-A882-A0E14FC10000),
+		dual,
+		helpstring("IEbsProposal Interface"),
+		pointer_default(unique)
+	]
+	interface IEbsProposal : IDispatch
+	{
+		[propget, id(1), helpstring("property Sections")] HRESULT Sections([out, retval] LPDISPATCH *pVal);
+		[propget, id(2), helpstring("property Agency")] HRESULT Agency([out, retval] BSTR *pVal);
+		[propget, id(3), helpstring("property LettingDate")] HRESULT LettingDate([out, retval] VARIANT *pVal);
+		[propget, id(4), helpstring("property CallOrder")] HRESULT CallOrder([out, retval] BSTR *pVal);
+		[propget, id(5), helpstring("property ContractID")] HRESULT ContractID([out, retval] BSTR *pVal);
+		[propget, id(6), helpstring("property County")] HRESULT County([out, retval] BSTR *pVal);
+		[propget, id(7), helpstring("property DateGenerated")] HRESULT DateGenerated([out, retval] VARIANT *pVal);
+		[propget, id(8), helpstring("property DateRevised")] HRESULT DateRevised([out, retval] VARIANT *pVal);
+		[propget, id(9), helpstring("property BidderID")] HRESULT BidderID([out, retval] BSTR *pVal);
+		[propput, id(9), helpstring("property BidderID")] HRESULT BidderID([in] BSTR newVal);
+		[propget, id(10), helpstring("property ProjectID")] HRESULT ProjectID([out, retval] BSTR *pVal);
+		[propget, id(11), helpstring("property AmendmentsCount")] HRESULT AmendmentsCount([out, retval] long *pVal);
+		[propget, id(12), helpstring("property JointBid")] HRESULT JointBid([out, retval] VARIANT_BOOL *pVal);
+		[propget, id(13), helpstring("property ValidBid")] HRESULT ValidBid([out, retval] VARIANT_BOOL *pVal);
+		[propget, id(14), helpstring("property Informational")] HRESULT Informational([out, retval] VARIANT_BOOL *pVal);
+		[propget, id(15), helpstring("property Check")] HRESULT Check([out, retval] BSTR *pVal);
+		[propget, id(16), helpstring("property Description")] HRESULT Description([out, retval] BSTR *pVal);
+		[propget, id(17), helpstring("property BidTotal")] HRESULT BidTotal([out, retval] double *pVal);
+		[propget, id(18), helpstring("property LettingID")] HRESULT LettingID([out, retval] BSTR *pVal);
+		[propget, id(19), helpstring("property ContractType")] HRESULT ContractType([out, retval] BSTR *pVal);
+		[propget, id(20), helpstring("property HighwayNumber")] HRESULT HighwayNumber([out, retval] BSTR *pVal);
+		[propget, id(21), helpstring("property BidderName")] HRESULT BidderName([out, retval] BSTR *pVal);
+		[propput, id(21), helpstring("property BidderName")] HRESULT BidderName([in] BSTR newVal);
+		[propget, id(22), helpstring("property BidderAddr1")] HRESULT BidderAddr1([out, retval] BSTR *pVal);
+		[propput, id(22), helpstring("property BidderAddr1")] HRESULT BidderAddr1([in] BSTR newVal);
+		[propget, id(23), helpstring("property BidderAddr2")] HRESULT BidderAddr2([out, retval] BSTR *pVal);
+		[propput, id(23), helpstring("property BidderAddr2")] HRESULT BidderAddr2([in] BSTR newVal);
+		[propget, id(24), helpstring("property BidderCity")] HRESULT BidderCity([out, retval] BSTR *pVal);
+		[propput, id(24), helpstring("property BidderCity")] HRESULT BidderCity([in] BSTR newVal);
+		[propget, id(25), helpstring("property BidderState")] HRESULT BidderState([out, retval] BSTR *pVal);
+		[propput, id(25), helpstring("property BidderState")] HRESULT BidderState([in] BSTR newVal);
+		[propget, id(26), helpstring("property BidderZip")] HRESULT BidderZip([out, retval] BSTR *pVal);
+		[propput, id(26), helpstring("property BidderZip")] HRESULT BidderZip([in] BSTR newVal);
+		[propget, id(27), helpstring("property BidderPhone")] HRESULT BidderPhone([out, retval] BSTR *pVal);
+		[propput, id(27), helpstring("property BidderPhone")] HRESULT BidderPhone([in] BSTR newVal);
+		[propget, id(28), helpstring("property BidderFax")] HRESULT BidderFax([out, retval] BSTR *pVal);
+		[propput, id(28), helpstring("property BidderFax")] HRESULT BidderFax([in] BSTR newVal);
+		[propget, id(29), helpstring("property BidderPager")] HRESULT BidderPager([out, retval] BSTR *pVal);
+		[propput, id(29), helpstring("property BidderPager")] HRESULT BidderPager([in] BSTR newVal);
+		[propget, id(30), helpstring("property BidderEmail")] HRESULT BidderEmail([out, retval] BSTR *pVal);
+		[propput, id(30), helpstring("property BidderEmail")] HRESULT BidderEmail([in] BSTR newVal);
+		[id(31), helpstring("method ApplyAmendment")] HRESULT ApplyAmendment([out,retval]EbsIOError *pError);
+		[id(32), helpstring("method GetAmendmentChanges")] HRESULT GetAmendmentChanges([in, out] VARIANT * Changes, [out, retval] EbsIOError *pError);
+		[id(33), helpstring("method CheckProposal")] HRESULT CheckProposal([in,out] VARIANT *Errors, [out, retval] INT *pNumErrors);
+	
+//TODO upgrade <GL>: remove comment		[propget, id(20), helpstring("property DBEs")] HRESULT DBEs([out, retval] LPDISPATCH *pVal);
+//TODO upgrade <GL>: remove comment		[propget, id(21), helpstring("property WBEs")] HRESULT WBEs([out, retval] LPDISPATCH *pVal);
+//TODO upgrade <GL>: remove comment		[propget, id(22), helpstring("property MBEs")] HRESULT MBEs([out, retval] LPDISPATCH *pVal);
+	};
+	[
+		object,
+		uuid(A9FDF3A5-FDFE-11D4-91C6-444553540001),
+		dual,
+		helpstring("IEbsFileLib Interface"),
+		pointer_default(unique)
+	]
+	interface IEbsFileLib : IDispatch
+	{
+		[id(1), helpstring("method OpenFile")] HRESULT OpenFile([in]BSTR LibName,[in]BSTR FileName, [out, retval] EbsIOError* pError);	
+		[id(2), helpstring("method SaveProposal")] HRESULT SaveProposal([in]BSTR FileName, [out,retval]EbsIOError *pError);
+	    [id(3), helpstring("method OpenLib")] HRESULT OpenLib([in]BSTR LibName, [in, out] VARIANT * FileNames, [out, retval] EbsIOError *pError);
+		[propget, id(4), helpstring("property Proposal")]	HRESULT Proposal([out, retval] LPDISPATCH *pVal);
+		[id(5), helpstring("method OpenAmendment")] HRESULT OpenAmendment([in]BSTR LibName,[in]BSTR FileName, [out, retval] EbsIOError* pError);	
+	};
+	
+[
+	uuid(6ABC4DE3-C54C-11D3-B4CD-005004D39EC7),
+	version(1.0),
+	helpstring("EbsCom 1.0 Type Library")
+]
+library EBSCOMLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	
+	[
+		uuid(942E2BF7-D003-11D3-B4D5-005004D39EC7),
+		helpstring("EbsSections Class")
+	]
+	coclass EbsSections
+	{
+		[default] interface IEbsSections;
+	};
+	
+	[
+		uuid(942E2BFA-D003-11D3-B4D5-005004D39EC7),
+		helpstring("EbsSection Class")
+	]
+	coclass EbsSection
+	{
+		[default] interface IEbsSection;
+	};
+	
+	[
+		uuid(942E2BFD-D003-11D3-B4D5-005004D39EC7),
+		helpstring("EbsSectionsEnum Class")
+	]
+	coclass EbsSectionsEnum
+	{
+		[default] interface IEbsSectionsEnum;
+	};
+	
+	[
+		uuid(1E6F1C87-D19B-11D3-B4D6-005004D39EC7),
+		helpstring("EbsItems Class")
+	]
+	coclass EbsItems
+	{
+		[default] interface IEbsItems;
+	};
+	
+	[
+		uuid(1E6F1C8A-D19B-11D3-B4D6-005004D39EC7),
+		helpstring("EbsItemsEnum Class")
+	]
+	coclass EbsItemsEnum
+	{
+		[default] interface IEbsItemsEnum;
+	};
+	
+	[
+		uuid(1E6F1C8D-D19B-11D3-B4D6-005004D39EC7),
+		helpstring("EbsItem Class")
+	]
+	coclass EbsItem
+	{
+		[default] interface IEbsItem;
+	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		uuid(0111E797-D32B-11D3-B4D8-005004D39EC7),
+//TODO upgrade <GL>: remove comment		helpstring("EbsDBEs Class")
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	coclass EbsDBEs
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[default] interface IEbsDBEs;
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		uuid(0111E79A-D32B-11D3-B4D8-005004D39EC7),
+//TODO upgrade <GL>: remove comment		helpstring("EbsDBEsEnum Class")
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	coclass EbsDBEsEnum
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[default] interface IEbsDBEsEnum;
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		uuid(0111E79D-D32B-11D3-B4D8-005004D39EC7),
+//TODO upgrade <GL>: remove comment		helpstring("EbsEbsDBE Class")
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	coclass EbsDBE
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[default] interface IEbsDBE;
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		uuid(0111E7A0-D32B-11D3-B4D8-005004D39EC7),
+//TODO upgrade <GL>: remove comment		helpstring("EbsDBEItems Class")
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	coclass EbsDBEItems
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[default] interface IEbsDBEItems;
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		uuid(0111E7A3-D32B-11D3-B4D8-005004D39EC7),
+//TODO upgrade <GL>: remove comment		helpstring("EbsDBEItemsEnum Class")
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	coclass EbsDBEItemsEnum
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[default] interface IEbsDBEItemsEnum;
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		uuid(0111E7A6-D32B-11D3-B4D8-005004D39EC7),
+//TODO upgrade <GL>: remove comment		helpstring("EbsDBEItem Class")
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	coclass EbsDBEItem
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[default] interface IEbsDBEItem;
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		uuid(2D386F70-D3F3-11D3-B4D9-005004D39EC7),
+//TODO upgrade <GL>: remove comment		helpstring("EbsDBEFieldValues Class")
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	coclass EbsDBEFieldValues
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[default] interface IEbsDBEFieldValues;
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		uuid(2D386F73-D3F3-11D3-B4D9-005004D39EC7),
+//TODO upgrade <GL>: remove comment		helpstring("EbsDBEFieldValuesEnum Class")
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	coclass EbsDBEFieldValuesEnum
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[default] interface IEbsDBEFieldValuesEnum;
+//TODO upgrade <GL>: remove comment	};
+	
+//TODO upgrade <GL>: remove comment	[
+//TODO upgrade <GL>: remove comment		uuid(2D386F76-D3F3-11D3-B4D9-005004D39EC7),
+//TODO upgrade <GL>: remove comment		helpstring("EbsDBEFieldValue Class")
+//TODO upgrade <GL>: remove comment	]
+//TODO upgrade <GL>: remove comment	coclass EbsDBEFieldValue
+//TODO upgrade <GL>: remove comment	{
+//TODO upgrade <GL>: remove comment		[default] interface IEbsDBEFieldValue;
+//TODO upgrade <GL>: remove comment	};
+
+	[
+		uuid(C7DA8A0D-524B-11D4-A882-A0E14FC10000),
+		helpstring("EbsProposal Class")
+	]
+	coclass EbsProposal
+	{
+		[default] interface IEbsProposal;
+	};
+	[
+		uuid(A9FDF3A6-FDFE-11D4-91C6-444553540001),
+		helpstring("EbsFileLib Class")
+	]
+	coclass EbsFileLib
+	{
+		[default] interface IEbsFileLib;
+	};
+};

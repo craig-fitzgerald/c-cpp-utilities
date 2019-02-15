@@ -1,0 +1,23 @@
+HKCR
+{
+	EbsCom.EbsDBE.1 = s 'EbsDBE Class'
+	{
+		CLSID = s '{0111E79D-D32B-11D3-B4D8-005004D39EC7}'
+	}
+	EbsCom.EbsDBE = s 'EbsDBE Class'
+	{
+		CLSID = s '{0111E79D-D32B-11D3-B4D8-005004D39EC7}'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {0111E79D-D32B-11D3-B4D8-005004D39EC7} = s 'EbsDBE Class'
+		{
+			ProgID = s 'EbsCom.EbsDBE.1'
+			VersionIndependentProgID = s 'EbsCom.EbsDBE'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'both'
+			}
+		}
+	}
+}

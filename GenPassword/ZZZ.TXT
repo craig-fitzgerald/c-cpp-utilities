@@ -1,0 +1,20 @@
+New Dial-up Accts
+no SNA access required
+
+Acct:       BIDX
+UserID's:   BIDX001
+            BIDX002
+            BIDX003
+            BIDX004
+            BIDX005
+            BIDX006
+            BIDX007
+            BIDX008
+            BIDX009
+            BIDX010
+
+Priviledge: Accessto:  206.199.79.___ 
+                          thru
+                       206.199.79.___ 
+
+

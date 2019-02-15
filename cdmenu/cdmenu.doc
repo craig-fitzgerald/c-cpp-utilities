@@ -1,0 +1,728 @@
+User and Reference guide for CDMenu 1.01
+
+What is it?
+CDMenu is a program to display button based menu's.  The primary
+purpose of the program is to support the autostart feature of CD's
+
+The program displays a bitmap based splash screen and one or more buttons.
+Clicking on a button can bring up a new menu or execute a program, URL, 
+email, or open a document.
+
+Setting up the program is very simple:
+1> create a configuration file that describes the program behavior 
+    (detailed below).
+2> Create an AutoStart.inf file.  It should look something like this:
+
+      -----cut------------cut------
+      [autorun]
+      open=\startup\cdmenu.exe
+      icon=\startup\cdmenu.exe
+		label=Acme Widgit CD
+      -----cut------------cut------
+
+3> Put the AutoStart.inf file at the root of the cd.
+4> Create a directory, (ex: startup) at the root of the CD.
+5> place CDMenu.exe, the config file, bitmaps, and wav files in that dir. 
+6> Burn the CD and test.
+
+
+This document is really about describing the cdmenu configuration file.
+The default name for this file is CDMENU.CFG  You can use a different name
+if you want but if you do you will need to provide the filename on the command
+line.
+
+The configuration file is broken up into sections, with each section 
+representing a different menu page.  Each section contains settings describing
+the attributes of the page and a list of buttons.  Each button consists of the
+keyword "Button:" and then a list of settings describing the attributes of 
+that button.
+
+Here's an example of a valid cdmenu.cfg file:
+
+      -----cut------------cut------
+      [main]
+      PageImage  = main.bmp
+      PageSounds = start.wav,end.wav,click.wav
+
+      Button:
+         Text = Install
+         Pos  = Right,Top,125,30
+         Cmd  = \setup.exe
+      Button:
+         Text = Readme
+         Pos  = movedown
+         Cmd  = \Readme.txt
+      Button:
+         Text = Exit
+         Pos  = movedown
+         Cmd  =
+      -----cut------------cut------
+
+The first line: [main] tells the program that this is a new page
+and that the page is called [main].  Every config file has to have a [main]
+page.  This is the first page to display to the user when the program runs.
+After that, there are a couple of lines of page settings, and then a list of
+buttons.
+Notice how each button is described: First there is a line that says Button:
+and following that is a list of settings that describe the button.
+There are lots of page and button settings and they're all described in the 
+reference section below.  Keep in mind that almost all of them are optional
+and the program makes reasonable choices when you don't specify them.
+
+Lets look at a more detailed example:
+
+      -----cut------------cut------
+	  ;
+	  ;	This is a sample CDMenu config file
+	  ;
+      [default]
+      FileType  = pde,Adobe Acrobat,c:\cd_expedite42a-1\Acrobat\ar40eng.exe
+      PageImage           = main.bmp
+      PageTitleBar        = YES
+      PageTitle           = Acme Wonder-wear CD!
+      PageMessage         = Welcome the the great Acme Wonder-wear install CD!
+
+      [main]
+      PageSounds          = start.wav,end.wav,click.wav
+      PageMessageFont     = Arial,18,8
+      PageMessageColor    = 255,255,128
+      PageMessageArea     = 100,125,300,50
+
+      DefaultFont         = Arial,14,6
+      DefaultFontColor    = 64,0,64
+      DefaultColor 		  = 64,192,64
+
+      Button:
+         Text = Install
+         Image= GreenMarble.bmp
+         Pos  = Right,Top,125,30
+         Cmd  = \setup.exe
+      Button:
+         Text = Docs
+         Image= GreenMarble.bmp,0,30
+         Pos  = movedown
+         Cmd  = [docs]
+      Button:
+         Font = Ms Sans Serif,16,8
+         Text = Exit
+         Image= GreenMarble.bmp,0,60
+         Pos  = ,+50,,
+         Cmd  =
+
+      [docs]
+      DefaultImage = BlueMarble.bmp
+      DefaultColor = 32,32,224
+
+      Button:
+         Text = Users Guide
+         Pos  = left,top,125,30
+         Cmd  = \userguide.pdf
+      Button:
+         Text = Whatsnew
+         Cmd  = \whatsnew.txt
+      Button:
+         Text = back
+         Cmd  = [main]
+      -----cut------------cut------
+
+OK, here we have 3 different sections, [default], [main], and [docs].
+[default] actually doesn't represent a page, it's a special section 
+where you can put settings that will apply to all the other sections
+that don't explicitly have settings of their own.  So in this config file
+we have 2 pages, the [main] page and the [docs] page.
+
+Lets look at the [main] page in some detail:
+Notice that the [main] section starts out with 4 settings, if you had
+skipped ahead and read the reference section first, you would know that
+these settings define what noises to annoy the user with and where and
+how to display a message to the user.  The actual text of the message isn't
+here, but thats OK because the [default] section told the program what to
+use if we left it blank here.
+
+After the 1st 4 settings, we have another set of 3 settings that all start
+with "Default". These "Default" settings are all for describing the default
+settings of the buttons in the page.  They're not necessarily needed here,
+but it's less work than adding these setting for each button.  By the way,
+if you haven't already guessed, these settings describe the font to use
+on the buttons, and the button colors.  These buttons will be painted with
+an image, but we specify the DefaultColor here anyway because it's used 
+to calculate the colors of the 3D edges around the buttons.
+
+OK, were almost done.  After all those page settings is the list of buttons.
+The settings for these buttons are mildly interesting, so lets look at em:
+
+The first button command will place a button in the upper right corner of the
+window and the button will say "Install".  The button will have this cool 
+green Marble look that it got by loading the GreenMarble.bmp file, and when
+the user clicks on it, CDMenu will run the setup.exe program that is 
+conveniently located in the root directory of the CD.
+
+The next button will look at lot like the previous button.  It will be below
+it, the bitmap will be shifted a little bit (30 pixels down to be exact) so 
+it won't look like a copy of the button above it, and when the user clicks on
+it, the page changes to the [docs] page.
+
+The third and last button is the exit button.  Note that the Cmd setting is
+blank.  The program exits when the user clicks on a button with an empty Cmd.
+
+Lastly, I want to mention the FileType setting.  In the above example it is
+the first setting in the [default] section.  If a button attempts to launch
+a file type that windows doesn't know about, the program will look at any
+FileType settings before giving up.  If it can find a match, it will give the
+user the option to install the necessary program. So, if the user goes to the
+[docs] page and clicks on the "User's Guide" button, and if the user had never
+installed Adobe Acrobat on his/her machine, a message will appear telling the
+user that it cannot open this document type and asks the user if he/she would
+like to install the Adobe Acrobat Reader.
+
+And very lastly, notice that the config file allows comments that are 
+preceeded by a semi-colon.
+
+If you've made it this far, you can figure out the rest. Good luck!
+
+
+====================================================================
+Quick Reference
+
+Global Settings
+---------------
+FileType               = FileSuffix,ApplicationName,InstallProgram
+
+
+Page Settings           
+-------------
+PageImage              = BitmapFile[,XWindowSize,YWindowSize]
+PageMessage            = Text
+PageMessageArea        = Left,Top,XSize,YSize
+PageMessageColor       = RedVal,GreenVal,BlueVal
+PageMessageFont        = FontName,Size,Weight
+PageMessageJustify     = Center|Left|Right
+PagePopupMessage       = Text
+PageSounds             = StartSoundFile,EndsoundFile,ClickSoundFile
+PageTitle              = Text
+PageTitleBar           = YES|NO
+
+Default3DEffect        = YES|NO
+DefaultColor           = RedVal,GreenVal,BlueVal
+DefaultEdge            = XEdge,YEdge
+DefaultFont            = FontName,Size,Weight
+DefaultFontColor       = RedVal,GreenVal,BlueVal
+DefaultFontShadowMode  = OFF | Number
+DefaultGap             = XGap,YGap
+DefaultHilightColor    = RedVal,GreenVal,BlueVal
+DefaultHilightImage    = BitmapFile[, XOffset,YOffset]
+DefaultImage           = BitmapFile[, XOffset,YOffset]
+DefaultMessage         = Text
+DefaultMessageArea     = Left,Top,XSize,YSize
+DefaultMessageColor    = RedVal,GreenVal,BlueVal
+DefaultMessageFont     = FontName,Size,Weight
+DefaultMessageJustify  = Center|Left|Right
+DefaultPushColor  	  = RedVal,GreenVal,BlueVal
+DefaultPushImage  	  = BitmapFile[, XOffset,YOffset]
+DefaultShadowColor     = RedVal,GreenVal,BlueVal
+
+
+Button Settings
+---------------
+3DEffect        = YES|NO
+Cmd             = text
+Color           = RedVal,GreenVal,BlueVal
+Edge            = XEdge,YEdge 
+Font            = FontName,Size,Weight
+FontColor       = RedVal,GreenVal,BlueVal
+FontShadowMode  = OFF | Number
+Gap             = XGap,YGap
+HilightColor    = RedVal,GreenVal,BlueVal
+HilightImage	 = BitmapFile[, XOffset,YOffset]
+Image           = BitmapFile[, XOffset,YOffset]
+Message         = Text
+Msg             = Text
+MessageArea     = Left,Top,XSize,YSize
+MessageColor    = RedVal,GreenVal,BlueVal
+MessageFont     = FontName,Size,Weight
+MessageJustify  = Center|Left|Right
+PushColor       = RedVal,GreenVal,BlueVal
+PushImage		 = BitmapFile[, XOffset,YOffset]
+Pos             = Left#,Top#,XSize#,YSize#
+ShadowColor     = RedVal,GreenVal,BlueVal
+Sound           = ClickSoundFile
+Text            = Text
+==================================================================
+
+Complete Reference:
+
+Format of the CFG file
+----------------------
+<global settings>
+   etc...
+[PAGE NAME]
+<page settings>
+   etc...
+Button:
+   <button settings>
+      etc...
+Button:
+   <button settings>
+   etc...
+[PAGE NAME]
+   etc...
+
+
+Global Settings
+---------------
+FileType (optional)
+Usage        : FileType = FileSuffix,ApplicationName,InstallProgram
+Example      : FileType = pdf,Adobe Acrobat,\Acrobat\ar40eng.exe
+Description  : If the user clicks on a button, and that button attempts
+               to open a file that the computer cannot understand, the 
+               program will look at the FileType settings to see if that
+               filetype is listed.  If it is listed, the program will ask
+               the user if he/she wants to install that program.
+Notes        : This setting may be used multiple times
+--           
+
+
+Page Settings
+----------
+PageImage (required once per page)
+Usage        : PageImage = BitmapFile[,XWindowSize,YWindowSize]
+Examples     : PageImage = MainBackground.bmp
+               PageImage = paper.bmp,640,480
+Description  : This setting tells the program what bitmap to use for the
+               background.  If the XWindowSize and YWindowSize are not
+               specified, the window will be the size of the bitmap. If
+               the sizes are specified, the window will be that size, and
+               the bitmap will be repeated or "tiled" as necessary to fill
+               the window.
+Default Val  : None, you must add this setting
+--
+
+PageMessage (optional)
+Usage        : PageMessage = Text
+Example      : PageMessage = Welcome to the Acme Sampler CD!
+Description  : This message is always displayed on the window.  You can have 
+               multiple PageMessages on one page.  Use PageMessageArea,
+					PageMessage, another PageMessageArea and another PageMessage,
+               etc...  There is no limit to the number of messages.  The 
+               values of PageMessageColor, PageMessageFont, PageMessageArea,
+               and PageMessageJustify all affect the displayed text.  Make
+					sure to specify these modifiers before the PageMessage Call.
+Default Val  : No messages.
+--
+
+PageMessageFont (optional)
+Usage        : PageMessageFont = FontName,Size,Weight
+Example      : PageMessageFont = Arial,12,5
+Description  : This setting describes the font to use for the Page Message
+               text.  The font name can be any valid name.  The size is the
+               point size.  The weight is a number from 1-9 that describes the
+               boldness.  Weight of 4 is normal, 8 is Bold.
+Default Val  : Arial,15,6
+--
+
+PageMessageColor (optional)
+Usage        : PageMessageColor = RedVal,GreenVal,BlueVal
+Example      : PageMessageColor = 0,255,255
+Description  : This sets the color for the page message text. The 3 values are 
+               all from 0 to 255.  If you need to find color values, load up
+               a graphics program such as Paint Shop Pro, choose a good color,
+               and look at the Red,Green,and Blue values.
+Default Val  : The default system text color .
+--
+
+PageMessageArea (optional)
+Usage        : PageMessageArea = Left,Top,XSize,YSize
+Example      : PageMessageArea = 300,200,250,150
+Description  : This defines the rectangle where the Page message will be 
+               located.  The numbers are in pixels.
+Default Val  : no area
+--
+
+PageMessageJustify (optional)
+Usage        : PageMessageJustify = Center|Left|Right
+Example      : PageMessageJustify = Right
+Description  : Sets the justification for the current message. Messages may
+			   also contain \n for newlines
+Default Val  : Center
+--
+
+PagePopupMessage (optional)
+Usage        : PageMessage = Text
+Example      : PageMessage = Hey bud, move the mouse over a button!
+Description  : This is the message to show to the user when the mouse is over
+               the window an not over a button.  The font, text color, and
+               message position are all controlled from the last set of
+               PageMessage settings.
+Default Val  : No popup message.
+--
+
+PageSounds (optional)
+Usage        : PageSounds = StartSoundFile,EndsoundFile,ClickSoundFile
+Example      : PageSounds = Start.wav,Start.wav,Click.wav
+Description  : This tells the program what sound files to play when the user
+               starts the program, exits the program, or clicks on a button.
+               Note that the ClickSoundFile is the default for all buttons on
+               the page. Individual buttons can override the sound with 
+               the "Sound" setting.
+Default Val  : no sounds
+--
+
+PageTitle (optional)
+Usage        : PageTitle = Text
+Example      : PageTitle = Acme Demo CD
+Description  : This defines the text to put in the title bar and on the 
+               start-bar next to the program icon.
+Default Val  : no title text
+--
+
+PageTitleBar (optional)
+Usage        : PageTitleBar = YES|NO
+Example      : PageTitleBar = YES
+Description  : This tells the program if the page should have a title bar at
+               the top of the window.  If the title bar is present, the user
+               can see the window title and can minimize or close the program.
+Default Val  : OFF
+--
+
+Default3DEffect (optional)
+DefaultColor (optional)
+DefaultEdge (optional)
+DefaultFont (optional)
+DefaultFontColor (optional)
+DefaultFontShadowMode (optional)
+DefaultGap (optional)
+DefaultHilightColor (optional)
+DefaultHilightImage (optional)
+DefaultImage (optional)
+DefaultMessage (optional)
+DefaultMessageArea (optional)
+DefaultMessageColor (optional)
+DefaultMessageFont (optional)
+DefaultMessageJustify (optional)
+DefaultPushColor (optional)
+DefaultPushImage (optional)
+DefaultShadowColor (optional)
+Usage        : See the Button Settings section below
+Example      : See the Button Settings section below
+Description  : These settings work just like their "Button Settings" 
+               counterparts described below. The difference being that
+               these are default setting that will apply to all of the
+               buttons on the page that do not have a specific setting.
+               For example, setting the DefaultFontColor will set the
+               color for all of the buttons in the page that do not have
+               an explicit FontColor setting.
+--
+
+
+
+Button Settings
+---------------
+3DEffect (optional)
+Usage        : 3DEffect = YES|NO
+Example      : 3DEffect = YES
+Description  : This determines if the program should draw the little 3D
+               shadow areas around the button to give it a 3D look.
+Default Val  : Yes
+--
+
+Cmd (required)
+Usage        : Cmd = text
+Examples     : Cmd = Readme.txt
+               Cmd = setup.exe
+               Cmd = %cfgdir%\setup.exe
+               Cmd = http:\\www.acme.com
+               Cmd = mailto:info@mail.acme.com
+               Cmd = catalog.pdf
+               Cmd = [Contact Page]
+               Cmd = 
+Description  : This setting tells the program what to do when the user
+               clicks on the button. If the command is an executable,
+               it is run, it it's a URL or a mailto, a web browser or 
+               a email program is started, etc..  If the command is a file
+               Windows looks for an appropriate viewer. The command can also
+               be another page (enclosed in []).  If the command is blank, it
+               means exit the program.
+               If the command is a file and Windows doesn't know how to open
+               it the program will look at all the "FileType" settings.  If it
+               finds a match, it will as the user if he/she wants to install 
+               the appropriate program.
+			   Commands may optionally contain the following special variables:
+			      %cfgdir%	 this means the dir containing the cfg file
+			      %parent%	 this means the parent dir of %cfgdir%
+			      %exedir%   this means the dir containing the exe file
+			      %root%	 this means the root dir of the CD
+Default Val  : none, so the button defaults to an exit button
+--
+
+Color (optional)
+Usage        : Color = RedVal,GreenVal,BlueVal 
+					Color = #HexValue 
+					Color = SystemColorName
+Examples     : Color = 224,224,255
+					Color = #80DDCC
+					Color = ActiveBorder
+					Color = 12394856
+Description  : This command defines the color for the face of the button.  
+               Note that if an "Image" setting is used, you will never see
+               this color, but the color is still be used get good colors
+					for the 3D edges around the button.  The basic way of 
+					specifying a color is to enter the red, green and blue values
+					separated by commas.  All 3 values are from 0 to 255.
+					Alternatively, you may specify the Hex value of the color ala
+					WEB pages by preceeding the value with a # sign.  Finally, if
+					you know the name of a system color you want, you can specify
+					that too.  A complete list of the valid system colors is given
+					in Appendix A.
+					
+Default Val  : system button color
+--
+
+Edge (optional)
+Usage        : Edge = XEdge,YEdge 
+Example      : Edge = 50,20
+Description  : This defines the size of the border around the edges of the 
+               window. When placing buttons, if you use values like Top,
+               Left,Right or Bottom for the "Pos" setting, these Edge 
+               settings help tell the buttons where to go.
+Default Val  : 15,15
+--
+
+Font (optional)
+Usage        : Font = FontName,Size,Weight
+Example      : Font = Courier New,12,4
+Description  : This defines the font to use for the button. The weight is
+               the Boldness and ranges from 1 to 10.
+Default Val  : Arial,15,6
+--
+
+FontColor (optional)
+Usage        : FontColor = RedVal,GreenVal,BlueVal
+Example      : FontColor = 78,45,144
+Description  : This defines the color of the font to use on the button. 
+					See the "Color" option for more on how to specify a color.
+Default Val  : System button text color
+--
+
+FontShadowMode (optional)
+Usage        : FontShadowMode = OFF | Number
+Examples     : FontShadowMode = OFF
+             : FontShadowMode = 0
+             : FontShadowMode = 2
+Description  : This tells the text of the button what to do when the button
+               is clicked. If OFF, the button sticks to the face of the button.
+               Otherwise, the text stays in place and "floats" above the button
+               when the button is pushed.  The number represents the number of
+               pixels over where the shadow is drawn.  2 is a good value.
+Default Val  : OFF
+--
+
+Gap (optional)
+Usage        : Gap = XGap,YGap
+Example      : Gap = 15,10
+Description  : This defines the gap between successive buttons.  When placing 
+               buttons, if you use values like movedown.moveright etc. for the
+               "Pos" setting, these gap settings help tell the buttons where to
+                go.
+Default Val   : 5,5
+--
+
+HilightColor (optional)
+Usage        : HilightColor = RedVal,GreenVal,BlueVal
+Example      : HilightColor = 79,155,204
+Description  : This defines the color to use for the button while the mouse is
+					over the button.  In addition to all the ways you can specify
+					a color that are described in the "Color" setting, you can also
+					specify "Lighter" or "Darker"  which will be a lighter or darker
+					permutation of the "Color" setting for the button.
+Default      : Same color as "Color"
+--
+
+HilightImage (optional)
+Usage        : HilightImage = BitmapFile[,XOffset,YOffset]
+Examples     : HilightImage = OButton.bmp
+             : HilightImage = Button.bmp,0,50
+             : HilightImage = ,+50,+0
+Description  : This tells the program to use a bitmap for the button when
+					the user moves the mouse over the button.  An effective use
+					of this option is to use an "Image" for the button, and a
+					"HilightImage" that is like the Image bitmap but is different
+					in a way that hilights the button.  See the description of 
+					"Image" for more general information on specifying a bitmap.
+Default Val  : No bitmap
+--
+
+Image (optional)
+Usage        : Image = BitmapFile[,XOffset,YOffset]
+Examples     : Image = Button.bmp
+             : Image = Button.bmp,0,50
+             : Image = ,+50,+0
+Description  : This tells the program to use bitmap for the button face.
+               If XOffset and YOffset are used, they specify a starting
+               point in the bitmap to use on the upper-left corner of the
+               button.  This allows you to put several button images in
+               a single bitmap file.  The offset values may be relative
+               to the previous button if prefixed by a '+' or a '-'. If
+               the Image setting is blank, no bitmap is used.  If the 
+               bitmap name is uded, but the offset params are used, the
+               default image is assumed.
+Default Val  : No bitmap
+--
+
+Message (optional)
+Usage        : Message = Text
+Example      : Message = Click Here to install our exciting new Demo!
+Description  : This is the message to display to the user when the mouse is
+               moved over the button.  The message will display in the 
+               "MessageArea" using the "MessageFont" and "MessageColor".
+Default Val  : No message
+--
+
+Msg (optional)
+Usage        : Msg = Text
+Example      : Msg = &Exit
+Description  : This is an alias for the "Message" setting.
+--
+
+MessageArea (optional)
+Usage        : MessageArea = Left,Top,XSize,YSize
+Example      : MessageArea = 300,200,250,150
+             : MessageArea = ,+50,,
+Description  : This defines the rectangle where the message will be 
+               located.  The numbers are in pixels.  The numbers are
+               considered relative to the previous MessageArea if they
+               are preceeded with a '+' or a '-'.
+Default Val  : No message area
+--
+
+MessageColor (optional)
+Usage        : MessageColor = RedVal,GreenVal,BlueVal
+Example      : MessageColor = 224,224,255
+Description  : The color of the message text.  This should be getting pretty
+               old by now.
+					See the "Color" option for more on how to specify a color.
+Default Val  : system text color
+--
+
+MessageFont (optional)
+Usage        : Font = FontName,Size,Weight
+Example      : Font = Ms Sans Serif,15,8
+Description  : This defines the font to use for the message. The weight is
+               the Boldness and ranges from 1 to 10.
+Default Val  : Arial,15,6
+--
+
+MessageJustify (optional)
+Usage        : PageMessageJustify = Center|Left|Right
+Example      : PageMessageJustify = Right
+Description  : Sets the justification for the current message. Messages may
+			   also contain \n for newlines
+Default Val  : Center
+--
+
+Pos (optional)
+Usage        : Pos = Left#,Top#,XSize#,YSize#
+             : Pos = moveleft | moveup | moveright | movedown
+Examples     : Pos = 50,60,125,30
+             : Pos = Left,Top,125,30
+             : Pos = CenterX,CenterY,125,30
+             : Pos = movedown
+             : Pos = ,+40,,
+Description  : This is simpler than it looks.  This tells the program where
+               to place the button on the page.  You can use "Left", "Right"
+               or "CenterX" for the Left number which will place the button
+               next to an edge (see XEdge) or center the button. You can use
+               "Top", "Bottom", or "CenterY" for the Top parameter which will
+               do the right thing.  You can make the numbers relative by 
+               preceeding them with a '+' or '-' to make the button relative
+               to the previous button.  Finally, you can use "moveleft", 
+               "moveup", "moveright" or "movedown" as a simple way to position
+               the buttons relative to the previous button.
+Default Val  : movedown
+--
+
+PushColor (optional)
+Usage        : PushColor = RedVal,GreenVal,BlueVal
+Example      : PushColor = 255,255,255
+Description  : This defines the color to use for the button while the button is
+					being pushed.  In addition to all the ways you can specify
+					a color that are described in the "Color" setting, you can also
+					specify "Lighter" or "Darker"  which will be a lighter or darker
+					permutation of the "Color" setting for the button.
+Default      : Same color as "Color"
+--
+
+PushImage (optional)
+Usage        : PushImage = BitmapFile[,XOffset,YOffset]
+Examples     : PushImage = OButton.bmp
+             : PushImage = Button.bmp,0,50
+             : PushImage = ,+50,+0
+Description  : This tells the program to use a bitmap for the button when
+					the user moves clicks on the button.  An effective use
+					of this option is to use an "Image" for the button, and a
+					"PushImage" that is like the Image bitmap but is different
+					in a way that hilights the button.  See the description of 
+					"Image" for more general information on specifying a bitmap.
+Default Val  : No bitmap
+--           
+
+ShadowColor (optional)
+Usage        : ShadowColor = RedVal,GreenVal,BlueVal
+Example      : ShadowColor = 64,64,64
+Description  : This defines the color to use for the Shadow color for the 
+               button 3D effects.  You may want to use this if say you make a
+               green button and you want a light green highlight and a dark 
+               green shadow to make the 3D effect more realistic.
+Default Val  : system button shadow color
+--
+
+Sound (optional)
+Usage        : Sound = ClickSoundFile
+Example      : Sound = Click.wav
+Description  : This is the sound to make when the user clicks on the button.
+               If left blank, and the user specified a ClickSoundFile in the
+           	   "PageSounds" page setting, that will be used instead.
+Default Val  : no sound
+--
+
+Text (optional)
+Usage        : Message = Text
+Example      : Message = &Install
+Description  : This is the text to put on the button.  Note that if you use
+               an "Image" setting for the button, you sometimes want to leave
+               this setting blank.
+Default Val  : No text
+--
+
+
+
+
+====================================================================
+Appendix A - System Colors
+
+If you don't know what a value means then you probably don't need it!
+
+	3ddkshadow				 
+	3dface					 
+	3dhilight				 
+	3dlight					 
+	3dshadow				 
+	Activeborder			 
+	Activecaption			 
+	Appworkspace			 
+	Background				 
+	Btntext					 
+	Captiontext			 
+	Graytext				 
+	Highlight				 
+	Highlighttext			 
+	Inactiveborder		 
+	Inactivecaption		 
+	Inactivecaptiontext	 
+	Infobk					 
+	Infotext				 
+	Menu						 
+	Menutext				 
+	Scrollbar				 
+	Window					 
+	Windowframe			 
+	Windowtext				 

@@ -1,0 +1,10 @@
+@echo off
+loadbtm on
+do 300
+   iff %@random[0,1] == 1 then
+      genpwd 1 /MinSize=7 /MaxSize=7 /NumWo=1 /Suf=## /Seed=%@random[0,32767]
+   else
+      genpwd 1 /MinSize=7 /MaxSize=7 /NumWo=1 /Pre=## /Seed=%@random[0,32767]
+   endiff
+enddo
+

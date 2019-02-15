@@ -1,0 +1,23 @@
+HKCR
+{
+	EbsCom.EbsSectionsEnum.1 = s 'EbsSectionsEnum Class'
+	{
+		CLSID = s '{942E2BFD-D003-11D3-B4D5-005004D39EC7}'
+	}
+	EbsCom.EbsSectionsEnum = s 'EbsSectionsEnum Class'
+	{
+		CLSID = s '{942E2BFD-D003-11D3-B4D5-005004D39EC7}'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {942E2BFD-D003-11D3-B4D5-005004D39EC7} = s 'EbsSectionsEnum Class'
+		{
+			ProgID = s 'EbsCom.EbsSectionsEnum.1'
+			VersionIndependentProgID = s 'EbsCom.EbsSectionsEnum'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'both'
+			}
+		}
+	}
+}

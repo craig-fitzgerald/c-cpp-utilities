@@ -1,0 +1,44 @@
+[Default]
+FileType = pdf,Adobe Acrobat,\Acrobat\ar40eng.exe
+
+PageImage            = Main.bmp
+PageTitleBar         = Yes
+PageTitle            = SiteXchange 1.0a
+PageSounds           = Start.wav,Start.wav,Click.wav
+PageMessageFont      = Arial,15,8
+PageMessageColor     = 67,137,146
+
+DefaultFont          = Arial,15,8
+DefaultEdge          = 30,125
+DefaultGap           = 15,15
+DefaultColor         = 67,137,146
+DefaultShadowColor   = 34,68,72
+DefaultHilightColor  = 124,188,196
+DefaultFontColor     = 255,255,255
+DefaultMessageFont   = Arial,15,8
+DefaultMessageColor  = 67,137,146
+DefaultMessageArea   = 400,360,200,100
+DefaultImage         = Buttons.Bmp
+DefaultMouseOverImage= Buttons.Bmp,0,28
+
+; This is the main page
+;
+[Main]
+PageTitle      = SiteXchange 1.0a - Installation
+
+Button:
+   Pos         = Top,Left,200, 100
+   Text        = Install SiteXchange DOT programs
+   Cmd         = ..\Setup.exe
+   Message     = Click on this button to install SiteXchange 1.0a DOT programs.
+   MessageArea = 200,140,250,300
+Button:
+   Text        = Install SiteXchange Contractor component
+   Cmd         = ..\SubCon\Setup.exe
+   Message     = Click on this button to install the SiteXchange 1.0a Contractor program.
+   MessageArea = ,+43,,
+Button:
+   Text        = Back
+   Cmd         = [Main]
+   Message     = Click on this button to return to the main menu.
+   MessageArea = ,+43,,

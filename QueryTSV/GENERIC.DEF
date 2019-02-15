@@ -1,0 +1,6 @@
+NAME         IndProg WINDOWCOMPAT NEWFILES
+DESCRIPTION  'Indiana data conversion programs'
+HEAPSIZE     2048                 
+STACKSIZE    32767
+EXETYPE      OS2            
+

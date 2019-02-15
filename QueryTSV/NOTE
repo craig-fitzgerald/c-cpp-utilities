@@ -1,0 +1,5 @@
+ strip/clip col names
+Line 004 Col 001 Label FILE           : TI1000.ASC     
+Line 004 Col 002 Label DESC: Understanding the PARADOX.NET File                
+
+QueryTSV.exe ti.un2 -d=col -l #0.NEQ.4 -q=10 $

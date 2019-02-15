@@ -1,0 +1,26 @@
+HKCR
+{
+	EbsCom.EbsFileLib.1 = s 'EbsFileLib Class'
+	{
+		CLSID = s '{A9FDF3A6-FDFE-11D4-91C6-444553540001}'
+	}
+	EbsCom.EbsFileLib = s 'EbsFileLib Class'
+	{
+		CLSID = s '{A9FDF3A6-FDFE-11D4-91C6-444553540001}'
+		CurVer = s 'EbsCom.EbsFileLib.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {A9FDF3A6-FDFE-11D4-91C6-444553540001} = s 'EbsFileLib Class'
+		{
+			ProgID = s 'EbsCom.EbsFileLib.1'
+			VersionIndependentProgID = s 'EbsCom.EbsFileLib'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			'TypeLib' = s '{6ABC4DE3-C54C-11D3-B4CD-005004D39EC7}'
+		}
+	}
+}

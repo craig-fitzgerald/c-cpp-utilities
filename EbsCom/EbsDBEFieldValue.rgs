@@ -1,0 +1,23 @@
+HKCR
+{
+	EbsCom.EbsDBEFieldValue.1 = s 'EbsDBEFieldValue Class'
+	{
+		CLSID = s '{2D386F76-D3F3-11D3-B4D9-005004D39EC7}'
+	}
+	EbsCom.EbsDBEFieldValue = s 'EbsDBEFieldValue Class'
+	{
+		CLSID = s '{2D386F76-D3F3-11D3-B4D9-005004D39EC7}'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {2D386F76-D3F3-11D3-B4D9-005004D39EC7} = s 'EbsDBEFieldValue Class'
+		{
+			ProgID = s 'EbsCom.EbsDBEFieldValue.1'
+			VersionIndependentProgID = s 'EbsCom.EbsDBEFieldValue'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'both'
+			}
+		}
+	}
+}

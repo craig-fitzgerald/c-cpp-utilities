@@ -1,0 +1,23 @@
+HKCR
+{
+	EbsCom.EbsItem.1 = s 'EbsItem Class'
+	{
+		CLSID = s '{1E6F1C8D-D19B-11D3-B4D6-005004D39EC7}'
+	}
+	EbsCom.EbsItem = s 'EbsItem Class'
+	{
+		CLSID = s '{1E6F1C8D-D19B-11D3-B4D6-005004D39EC7}'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {1E6F1C8D-D19B-11D3-B4D6-005004D39EC7} = s 'EbsItem Class'
+		{
+			ProgID = s 'EbsCom.EbsItem.1'
+			VersionIndependentProgID = s 'EbsCom.EbsItem'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'both'
+			}
+		}
+	}
+}

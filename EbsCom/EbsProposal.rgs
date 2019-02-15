@@ -1,0 +1,26 @@
+HKCR
+{
+	EbsCom.EbsProposal.1 = s 'EbsProposal Class'
+	{
+		CLSID = s '{C7DA8A0D-524B-11D4-A882-A0E14FC10000}'
+	}
+	EbsCom.EbsProposal = s 'EbsProposal Class'
+	{
+		CLSID = s '{C7DA8A0D-524B-11D4-A882-A0E14FC10000}'
+		CurVer = s 'EbsCom.EbsProposal.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {C7DA8A0D-524B-11D4-A882-A0E14FC10000} = s 'EbsProposal Class'
+		{
+			ProgID = s 'EbsCom.EbsProposal.1'
+			VersionIndependentProgID = s 'EbsCom.EbsProposal'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{6ABC4DE3-C54C-11D3-B4CD-005004D39EC7}'
+		}
+	}
+}

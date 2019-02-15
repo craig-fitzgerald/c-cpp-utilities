@@ -1,0 +1,5 @@
+  MouseOver Button Color
+  MouseOver Button Text Color
+x Exe's with space in filename
+  Web-like Links vs buttons
+x Fix CD-browse convention on NT systems
